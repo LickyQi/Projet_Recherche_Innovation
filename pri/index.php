@@ -33,18 +33,20 @@
             
             if($num==0){
                 // Get the type of error
-                $_SESSION['error_find'] = "There isnot such a user!";
+                $_SESSION['find'] = "Application runs well! But There isnot such a user!";
                 echo '<script type="text/javascript"> var mymessage=confirm("There isnot such a user! Do you want to inform the error?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
             }
             else{
                 $res = mysqli_fetch_array($result);
                 $password_real= $res['password'];
                 if($password_real==$password){
-                     echo '<script>alert("There is the users!");</script>';
+                    $_SESSION['find'] = "Application runs well! There is no problems";
+                    echo '<script type="text/javascript"> var mymessage=confirm("The Application runs well! Do you want to inform the news?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
+                    
                 }
                 else{
                     // Get the type of error
-                    $_SESSION['error_find'] = "The Password is Wrong!";
+                    $_SESSION['find'] = "Application runs well! But The Password is Wrong!";
                     echo '<script type="text/javascript"> var mymessage=confirm("The Password is Wrong! Do you want to inform the error?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
                 }
             }

@@ -56,10 +56,10 @@
                 
                 // Content
                 $mail->isHTML(true);                                  // Set email format to HTML
-                $mail->Subject = 'Information about something wrong';
+                $mail->Subject = 'Information from the application';
 //                $mail->Body    = '<b>There is no such a user!</b>';
                 
-                $mail->Body    = $_SESSION['error_find'];
+                $mail->Body    = $_SESSION['find'];
                 
                 //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
                 
@@ -85,8 +85,8 @@
         <br/>
         <h1 style="font-family:cabri;color:#003E3E;text-align:center;font-size:30px">
 <?php
-    echo "The error is that ";
-    echo $_SESSION['error_find'];
+    echo "The state is that ";
+    echo $_SESSION['find'];
     ?>
         </h1>
         <tr>
