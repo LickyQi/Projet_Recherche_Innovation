@@ -3,39 +3,68 @@
      * @author LI Qi
      * This important php show the page to add a new contract
      */
-
-include_once("config.php");
-
-if(isset($_POST['Submit'])) {
-    $name = mysqli_real_escape_string($mysqli, $_POST['name']);
-    $password = mysqli_real_escape_string($mysqli, $_POST['password']);
     
     
-    // checking empty fields
-    if(empty($name) || empty($password)) {
+    /*
+     * mysql_connect is deprecated
+     * So I use mysqli_connect to connect PHP anb MySql
+     */
+    
+    $databaseHost = '127.0.0.1';
+    // localhost and 127.0.0.1 are different here
+    // but I don't konw the reason
+    $databaseName = $_GET['database'];
+    $databaseUsername = 'root';
+    $databasePassword = 'Liqi8681,';
+    
+    error_reporting(0);
+    // ignore the warning
+    
+    $mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName);
+    
+    if(mysqli_connect_error())
+    {
+        session_start();
         
-        if(empty($name)) {
-            echo '<script>alert("Name field is empty.");</script>';
-        }
+        // Get the type of error
+        $_SESSION['error'] = mysqli_connect_error();
         
-        else if(empty($password)) {
-            echo '<script>alert("Password field is empty.");</script>';
-        }
-        
-        //link to the previous page
-        echo '<script>self.history.back(-1);</script>';
+        echo('<script type="text/javascript">var mymessage=confirm("Can not connect with DataBase !\nDo you want to inform the error ?");if(mymessage==true) {window.location.href="sent_connect.php?";} </script>');
     }
-    else {
-        // if all the fields are not empty
+    else{
         
-        //insert data to database
-        $result = mysqli_query($mysqli, "INSERT INTO Users (password,name) VALUES ('$password','$name')");
-        
-        // return to the main page
-        header("Location: index.php");
+        if(isset($_POST['Submit'])) {
+            $name = mysqli_real_escape_string($mysqli, $_POST['name']);
+            $password = mysqli_real_escape_string($mysqli, $_POST['password']);
+            
+            // checking empty fields
+            if(empty($name) || empty($password)) {
+                
+                if(empty($name)) {
+                    echo '<script>alert("Name field is empty.");</script>';
+                }
+                
+                else if(empty($password)) {
+                    echo '<script>alert("Password field is empty.");</script>';
+                }
+                
+                //link to the previous page
+                echo '<script>self.history.back(-1);</script>';
+            }
+            else {
+                // if all the fields are not empty
+                
+                //insert data to database
+                $result = mysqli_query($mysqli, "INSERT INTO Users (password,name) VALUES ('$password','$name')");
+                
+                // return to the main page
+                $url = 'users.php?database_name='.$databaseName;
+                header('location: '.$url);
+                
+            }
+        }
     }
-}
-?>
+    ?>
 
 <html>
     <head>
@@ -47,7 +76,7 @@ if(isset($_POST['Submit'])) {
             </head>
     <body>
         <div style="margin-top:30px;margin-left:30px">
-            <a href="index.php" class="btn btn-primary btn-sm active" tabindex="-1" role="button" aria-pressed="true">Home</a>
+            <a href="users.php?database_name=<?php echo $databaseName ?>" class="btn btn-primary btn-sm active" tabindex="-1" role="button" aria-pressed="true">Home</a>
         </div>
         <br/><br/>
         
@@ -56,7 +85,7 @@ if(isset($_POST['Submit'])) {
         </h1>
         <hr>
         
-        <form enctype='multipart/form-data' action="add_user.php" method="post" name="form1">
+        <form enctype='multipart/form-data' action="add_user.php?database=<?php echo $databaseName?>" method="post" name="form1">
             <INPUT TYPE = "hidden" NAME = "MAX_FILE_SIZE" VALUE ="1000000">
                 
                 <div style="padding: 20px 500px 500px;">
@@ -73,12 +102,12 @@ if(isset($_POST['Submit'])) {
                         </div>
                         <input type="text" name="password" class="form-control" aria-label="Sizing example input"  aria-describedby="inputGroup-sizing-default">
                             </div>
-                
-                <tr>
-                    <td></td>
-                    <button type="submit" name="Submit" class="btn btn-primary active" tabindex="-1" role="button" aria-pressed="true">Add</button>
-                </tr>
-                
+                    
+                    <tr>
+                        <td></td>
+                        <button type="submit" name="Submit" class="btn btn-primary active" tabindex="-1" role="button" aria-pressed="true">Add</button>
+                    </tr>
+                    
                 </div>
                 </form>
     </body>
