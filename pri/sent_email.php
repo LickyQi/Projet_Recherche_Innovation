@@ -20,8 +20,6 @@
     require './PHPMailer/src/PHPMailer.php';
     require './PHPMailer/src/SMTP.php';
     
-    session_start();
-        
     if (isset($_POST['send_email'])){
         $email_add = $_POST['email'];
         if(empty($email_add)){
@@ -55,16 +53,20 @@
                 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
                 
                 // Content
-                $mail->isHTML(true);                                  // Set email format to HTML
+                $mail->isHTML(false);                                  // Set email format to HTML
                 $mail->Subject = 'Information from the application';
-//                $mail->Body    = '<b>There is no such a user!</b>';
+                //                $mail->Body    = '<b>There is no such a user!</b>';
                 
-                $mail->Body    = $_SESSION['find'];
+                
+                //
+                $file_path = 'log.txt';
+                $str = file_get_contents($file_path);
+                $mail->Body = $str;
                 
                 //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
                 
                 $mail->send();
-                echo '<script>alert("The Message has been sent!");location.href="index.php";</script>';
+                echo '<script>alert("The Message has been sent!");location.href="index.html";</script>';
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
@@ -80,17 +82,14 @@
             </head>
     <body>
         <div style="margin-top:30px;margin-left:30px">
-            <a href="index.php" class="btn btn-primary btn-sm active" tabindex="-1" role="button" aria-pressed="true">Back</a>
+            <a href="index.html" class="btn btn-primary btn-sm active" tabindex="-1" role="button" aria-pressed="true">Back</a>
         </div>
         <br/>
         <h1 style="font-family:cabri;color:#003E3E;text-align:center;font-size:30px">
-<?php
-    echo "The state is that ";
-    echo $_SESSION['find'];
-    ?>
+            Please input the email address
         </h1>
         <tr>
-            <form action="sent_find.php" method="post" style="text-align:center">
+            <form action="sent_email.php" method="post" style="text-align:center">
                 <div style="padding: 20px 500px 500px;">
                     <div class="form-group">
                         <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">

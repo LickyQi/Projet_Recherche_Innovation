@@ -22,46 +22,34 @@
     
     $mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName);
     
-    if(mysqli_connect_error())
-    {
-        session_start();
+    if(isset($_POST['Submit'])) {
+        $name = mysqli_real_escape_string($mysqli, $_POST['name']);
+        $password = mysqli_real_escape_string($mysqli, $_POST['password']);
         
-        // Get the type of error
-        $_SESSION['error'] = mysqli_connect_error();
-        
-        echo('<script type="text/javascript">var mymessage=confirm("Can not connect with DataBase !\nDo you want to inform the error ?");if(mymessage==true) {window.location.href="sent_connect.php?";} </script>');
-    }
-    else{
-        
-        if(isset($_POST['Submit'])) {
-            $name = mysqli_real_escape_string($mysqli, $_POST['name']);
-            $password = mysqli_real_escape_string($mysqli, $_POST['password']);
+        // checking empty fields
+        if(empty($name) || empty($password)) {
             
-            // checking empty fields
-            if(empty($name) || empty($password)) {
-                
-                if(empty($name)) {
-                    echo '<script>alert("Name field is empty.");</script>';
-                }
-                
-                else if(empty($password)) {
-                    echo '<script>alert("Password field is empty.");</script>';
-                }
-                
-                //link to the previous page
-                echo '<script>self.history.back(-1);</script>';
+            if(empty($name)) {
+                echo '<script>alert("Name field is empty.");</script>';
             }
-            else {
-                // if all the fields are not empty
-                
-                //insert data to database
-                $result = mysqli_query($mysqli, "INSERT INTO Users (password,name) VALUES ('$password','$name')");
-                
-                // return to the main page
-                $url = 'users.php?database_name='.$databaseName;
-                header('location: '.$url);
-                
+            
+            else if(empty($password)) {
+                echo '<script>alert("Password field is empty.");</script>';
             }
+            
+            //link to the previous page
+            echo '<script>self.history.back(-1);</script>';
+        }
+        else {
+            // if all the fields are not empty
+            
+            //insert data to database
+            $result = mysqli_query($mysqli, "INSERT INTO Users (password,name) VALUES ('$password','$name')");
+            
+            // return to the main page
+            $url = 'users.php?database_name='.$databaseName;
+            header('location: '.$url);
+            
         }
     }
     ?>

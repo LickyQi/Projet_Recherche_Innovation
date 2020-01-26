@@ -20,12 +20,12 @@
     
     if(mysqli_connect_error())
     {
-        session_start();
-        
         // Get the type of error
-        $_SESSION['error'] = mysqli_connect_error();
+    
+        $filename = 'log.txt';
+        file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Can not connect with DataBase! The wrong is that ".mysqli_connect_error()."\n", FILE_APPEND);
         
-        echo('<script type="text/javascript">var mymessage=confirm("Can not connect with DataBase !\nDo you want to inform the error ?");if(mymessage==true) {window.location.href="sent_connect.php?";}else{window.location.href="index.html";} </script>');
+        echo('<script type="text/javascript">var mymessage=confirm("Can not connect with DataBase !");if(mymessage==true) {window.location.href="index.html";}else{window.location.href="index.html";} </script>');
     }
     else{
         
@@ -34,9 +34,6 @@
          * The main page with the table of contracts
          * I use Bootstrap to design the item
          */
-        
-        //including the database connection file
-        //    include_once("config.php");
         
         // select data in descending order
         
@@ -58,25 +55,33 @@
             else{
                 $result = mysqli_query($mysqli, "SELECT * FROM Users WHERE name='$name' ORDER BY id DESC");
                 $num = mysqli_num_rows($result);
-                session_start();
                 
                 if($num==0){
                     // Get the type of error
-                    $_SESSION['find'] = "Application runs well! But There isnot such a user!";
-                    echo '<script type="text/javascript"> var mymessage=confirm("There isnot such a user! Do you want to inform the error?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
+                    $filename = 'log.txt';
+                    file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Application runs well! But There isnot such a user! \n", FILE_APPEND);
+                    
+                    echo('<script type="text/javascript">var mymessage=confirm("There isnot such a user!");if(mymessage==true) {window.location.href="index.html";}else{window.location.href="index.html";} </script>');
+        
                 }
                 else{
                     $res = mysqli_fetch_array($result);
                     $password_real= $res['password'];
                     if($password_real==$password){
-                        $_SESSION['find'] = "Application runs well! There is no problems";
-                        echo '<script type="text/javascript"> var mymessage=confirm("The Application runs well! Do you want to inform the news?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
+                        
+                        $filename = 'log.txt';
+                        file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Application runs well! There is no problems! \n", FILE_APPEND);
+                        
+                        echo ('<script type="text/javascript"> var mymessage=confirm("The Application runs well! \n There is no problems");if(mymessage==true) {window.location.href="index.html";}else{window.location.href="index.html";} </script>');
                         
                     }
                     else{
                         // Get the type of error
-                        $_SESSION['find'] = "Application runs well! But The Password is Wrong!";
-                        echo '<script type="text/javascript"> var mymessage=confirm("The Password is Wrong! Do you want to inform the error?");if(mymessage==true){window.location.href="sent_find.php";}</script>';
+                        $filename = 'log.txt';
+                        file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Application runs well! But The Password is Wrong! \n", FILE_APPEND);
+                        
+                        echo ('<script type="text/javascript"> var mymessage=confirm("Application runs well! But The Password is Wrong!");if(mymessage==true) {window.location.href="index.html";}else{window.location.href="index.html";} </script>');
+                        
                     }
                 }
             }
@@ -118,7 +123,7 @@
             </form>
         </div>
         
-        <h6 style="color:#003E3E;text-align:center;font-size:50px">Welcome to PRI Systeme!
+        <h6 style="color:#003E3E;text-align:center;font-size:50px">Welcome to <?php echo $databaseName?> Systeme!
         </h6>
         <div style="text-align:center;font-family:arial;font-size:26px">
             <a href="add_user.php?database=<?php echo $databaseName ?>" class="btn btn-primary active" tabindex="-1" role="button" aria-pressed="true">Add a New User</a><br/>

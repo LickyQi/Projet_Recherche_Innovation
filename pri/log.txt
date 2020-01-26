@@ -1,0 +1,4 @@
+2020-01-26 16:51:00 : pri_3 : Can not connect with DataBase! The wrong is that Unknown database 'pri_3'
+2020-01-26 16:57:04 : pri_1 : Application runs well! But The Password is Wrong! 
+2020-01-26 16:57:12 : pri_2 : Application runs well! But There isnot such a user! 
+2020-01-26 16:57:14 : pri_3 : Can not connect with DataBase! The wrong is that Unknown database 'pri_3'
