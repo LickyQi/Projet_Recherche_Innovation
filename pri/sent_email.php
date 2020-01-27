@@ -2,8 +2,7 @@
     
     /*
      * @author LI Qi
-     * This php is a function to validate a contract
-     * and to sent a e-mail to inform
+     * This php is a function to sent a e-mail to inform
      */
     
     /*
@@ -55,10 +54,8 @@
                 // Content
                 $mail->isHTML(false);                                  // Set email format to HTML
                 $mail->Subject = 'Information from the application';
-                //                $mail->Body    = '<b>There is no such a user!</b>';
                 
-                
-                //
+                //log of the applications
                 $file_path = 'log.txt';
                 $str = file_get_contents($file_path);
                 $mail->Body = $str;

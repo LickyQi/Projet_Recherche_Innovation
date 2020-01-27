@@ -21,7 +21,7 @@
     if(mysqli_connect_error())
     {
         // Get the type of error
-    
+        
         $filename = 'log.txt';
         file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Can not connect with DataBase! The wrong is that ".mysqli_connect_error()."\n", FILE_APPEND);
         
@@ -31,7 +31,7 @@
         
         /*
          * @author LI Qi
-         * The main page with the table of contracts
+         * The main page with the table of users and passwords
          * I use Bootstrap to design the item
          */
         
@@ -39,7 +39,7 @@
         
         $result = mysqli_query($mysqli, "SELECT * FROM Users ORDER BY id DESC");
         
-        // search by sutudent's name
+        // search by users' name
         if (isset($_POST['search'])){
             $name = mysqli_real_escape_string($mysqli, $_POST['name']);
             $password = mysqli_real_escape_string($mysqli, $_POST['password']);
@@ -62,7 +62,7 @@
                     file_put_contents($filename, date('Y-m-d H:i:s')." : ".$databaseName." : Application runs well! But There isnot such a user! \n", FILE_APPEND);
                     
                     echo('<script type="text/javascript">var mymessage=confirm("There isnot such a user!");if(mymessage==true) {window.location.href="index.html";}else{window.location.href="index.html";} </script>');
-        
+                    
                 }
                 else{
                     $res = mysqli_fetch_array($result);
