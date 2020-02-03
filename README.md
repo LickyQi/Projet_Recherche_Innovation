@@ -4,6 +4,8 @@
 
 ![image](https://github.com/LickyQi/Projet_Recherche_Innovation/blob/master/LAMP.jpg)
 
+![image](https://github.com/LickyQi/Projet_Recherche_Innovation/blob/master/architecture.png)
+
 ### Tools  
 - Apache, PHP, Html5, MySQL, Javascript, PHPMailer, Google Email API, Bootstrap
 
